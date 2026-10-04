@@ -1,6 +1,4 @@
-"""StepLog: the one shared recorder used by every algorithm.
-
-Each recorded step follows the schema from Assignment 2 (section 5.5):
+"""StepLog: 
 
     {
       "stepIndex": int,
