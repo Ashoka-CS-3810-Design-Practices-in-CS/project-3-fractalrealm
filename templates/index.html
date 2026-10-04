@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Data Structure and Algorithms Visualizer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%230072b2%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <h1>DSA Visualizer</h1>
+    <nav id="structure-tabs" class="tabs" role="tablist" aria-label="Data structures"></nav>
+    <button id="btn-quiz" type="button">Take a quiz</button>
+    <button id="btn-theme" type="button" aria-pressed="false">Dark mode</button>
+  </header>
+
+  <main class="layout">
+    <!-- ================= left: operations ================= -->
+    <section aria-label="Controls">
+      <form id="op-form" class="panel" autocomplete="off">
+        <h2>Operation</h2>
+        <label class="field">Choose an operation
+          <select id="op-select"></select>
+        </label>
+        <div id="op-fields"></div>
+        <div class="row"><button id="btn-run" class="primary" type="submit">Run</button></div>
+        <p class="hint" id="graph-hint" hidden>Tip: click a vertex on the canvas to set the source; Shift+click sets the destination.</p>
+      </form>
+
+      <form id="gen-form" class="panel" autocomplete="off">
+        <h2>Build data</h2>
+        <label class="field">Number of values <input id="gen-count" type="number" value="10" min="1" max="50"></label>
+        <div class="row" id="gen-range">
+          <label class="field" style="flex:1">Min <input id="gen-min" type="number" value="1"></label>
+          <label class="field" style="flex:1">Max <input id="gen-max" type="number" value="99"></label>
+        </div>
+        <label class="field" id="gen-edges-wrap" hidden>Number of edges <input id="gen-edges" type="number" value="12" min="0"></label>
+        <label class="field" id="gen-dist-wrap">Distribution
+          <select id="gen-dist">
+            <option value="random">Random</option>
+            <option value="ascending">Ascending (BST becomes a chain)</option>
+            <option value="descending">Descending</option>
+          </select>
+        </label>
+        <div class="row"><button id="btn-generate" type="submit">Generate random test case</button></div>
+        <hr>
+        <div class="row">
+          <button id="btn-undo" type="button">Undo</button>
+          <button id="btn-redo" type="button">Redo</button>
+          <button id="btn-clear" type="button">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= centre: visualisation ================= -->
+    <section aria-label="Visualisation">
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <div id="views" class="views">
+        <div class="view" id="view-0">
+          <h3 class="view-title"></h3>
+          <canvas aria-label="Data structure visualisation"></canvas>
+          <p class="step-desc"></p>
+          <div class="state-row aux"></div>
+          <div class="state-row order"></div>
+          <div class="state-row counters"></div>
+        </div>
+        <div class="view" id="view-1" hidden>
+          <h3 class="view-title"></h3>
+          <canvas aria-label="Second algorithm visualisation"></canvas>
+          <p class="step-desc"></p>
+          <div class="state-row aux"></div>
+          <div class="state-row order"></div>
+          <div class="state-row counters"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:12px">
+        <div class="playback" role="group" aria-label="Playback controls">
+          <button id="btn-restart" type="button" title="Restart">⏮ Restart</button>
+          <button id="btn-back" type="button" title="Step back">◀ Back</button>
+          <button id="btn-play" type="button" class="primary">▶ Play</button>
+          <button id="btn-forward" type="button" title="Next step">Step ▶</button>
+          <span id="step-counter" class="step-counter">No steps</span>
+          <input id="scrub" class="scrub" type="range" min="0" max="0" value="0" aria-label="Step position">
+          <label>Speed <input id="speed" type="range" min="1" max="10" value="4" aria-label="Animation speed"></label>
+        </div>
+        <div class="legend" aria-label="Legend">
+          <span><i class="swatch current"></i>Current</span>
+          <span><i class="swatch compared"></i>Comparing / exploring</span>
+          <span><i class="swatch frontier"></i>Waiting in queue / stack</span>
+          <span><i class="swatch visited"></i>Visited</span>
+          <span><i class="swatch plain"></i>Untouched</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= right: complexity + pseudocode ================= -->
+    <aside class="side" aria-label="Complexity and pseudocode">
+      <section class="panel">
+        <h2>Complexity</h2>
+        <div id="complexity"></div>
+      </section>
+      <section class="panel">
+        <h2>Pseudocode</h2>
+        <div id="pseudocode"><p class="note">Select an operation to see its pseudocode.</p></div>
+      </section>
+    </aside>
+  </main>
+
+  <dialog id="quiz-dialog" aria-labelledby="quiz-title">
+    <h3 id="quiz-title">Quiz</h3>
+    <div id="quiz-body"></div>
+    <div class="row" style="justify-content:flex-end; margin-top:12px">
+      <button id="quiz-next" type="button" class="primary" hidden>Next</button>
+      <button id="quiz-close" type="button">Close</button>
+    </div>
+  </dialog>
+
+  <script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/animation.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/controls.js') }}"></script>
+</body>
+</html>
