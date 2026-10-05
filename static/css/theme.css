@@ -1,5 +1,4 @@
-/* Theme variables. Highlight colours use the Okabe-Ito palette and are ALSO distinguished by
-   outline style (solid / dotted / dashed) so they stay readable with common colour blindness. */
+[hidden] { display: none !important; }
 :root {
   --bg: #f4f6fb;
   --panel: #ffffff;
