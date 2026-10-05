@@ -1,7 +1,4 @@
-"""Binary Search Tree model 
 
-JSON form:  {"value": 50, "left": {...}, "right": null}   (None = empty tree)
-"""
 from config import MAX_NODES
 from errors import InvalidInputError, SizeLimitError
 
@@ -23,7 +20,7 @@ class BSTNode:
 
 
 class BST:
-    """Holds the root only; insert / delete / search live in algorithms/bst_ops.py."""
+   
 
     def __init__(self, root=None):
         self.root = root
