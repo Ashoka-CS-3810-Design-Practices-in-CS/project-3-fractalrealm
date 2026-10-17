@@ -49,3 +49,6 @@ All operations are `POST` with a JSON body and return
 ## Limits
 
 At most 50 nodes/vertices and 150 edges; integer values between -999 and 999.
+
+## Documentation and demontration
+https://drive.google.com/drive/folders/12Ne5yWxdYZa572Qp-G2t5TMdY7k7Co29?usp=sharing
