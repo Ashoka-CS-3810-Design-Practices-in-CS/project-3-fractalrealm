@@ -35,7 +35,7 @@ class TestBST(unittest.TestCase):
 
     def test_size_limit(self):
         node = None
-        for v in range(51, 0, -1):
+        for v in range(26, 0, -1):
             node = {"value": v, "left": None, "right": node}
         with self.assertRaises(SizeLimitError):
             BST.from_dict(node)
@@ -73,7 +73,7 @@ class TestGraph(unittest.TestCase):
 
     def test_vertex_limit(self):
         g = Graph()
-        for i in range(50):
+        for i in range(25):
             g.add_vertex("v%d" % i)
         with self.assertRaises(SizeLimitError):
             g.add_vertex("extra")
