@@ -62,7 +62,7 @@ class TestBstApi(ApiTestCase):
 
     def test_size_limit_blocks_insert(self):
         tree = None
-        for v in range(50):
+        for v in range(25):
             status, data = self.post("/api/bst/insert", {"tree": tree, "value": v})
             self.assertEqual(status, 200)
             tree = data["finalState"]
@@ -201,7 +201,7 @@ class TestGenerateAndReference(ApiTestCase):
         cases = [
             ({"structure": "bst", "count": 5, "min": 10, "max": 1}, "minimum"),
             ({"structure": "bst", "count": 20, "min": 1, "max": 5}, "distinct"),
-            ({"structure": "bst", "count": 51}, "At most"),
+            ({"structure": "bst", "count": 26}, "At most"),
             ({"structure": "bst", "count": 0}, "at least"),
             ({"structure": "heap", "count": 5, "distribution": "zigzag"}, "Distribution"),
             ({"structure": "tree", "count": 5}, "Unknown"),
