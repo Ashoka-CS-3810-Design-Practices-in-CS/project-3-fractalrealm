@@ -176,7 +176,15 @@
       'Comparisons: ' + step.counters.comparisons + '  ·  Operations: ' + step.counters.operations, 'counters'));
   }
 
+  function viewingReplay() {
+    return player.playing || (player.hasSteps() && !player.atEnd());
+  }
+
   function updateControls() {
+    const replay = viewingReplay();
+    btn.run.disabled = busy || replay;
+    btn.generate.disabled = busy;
+    $('replay-hint').hidden = !replay;
     btn.play.textContent = player.playing ? '⏸ Pause' : '▶ Play';
     btn.play.disabled = !player.canPlay();
     btn.forward.disabled = !player.canForward();
@@ -187,8 +195,8 @@
     scrub.value = player.index;
     stepCounter.textContent = player.hasSteps() ? 'Step ' + (player.index + 1) + ' / ' + player.total : 'No steps';
     const h = store[current].history;
-    btn.undo.disabled = !h.canUndo();
-    btn.redo.disabled = !h.canRedo();
+    btn.undo.disabled = busy || !h.canUndo();
+    btn.redo.disabled = busy || !h.canRedo();
   }
 
   // ------------------------------------------------------------------ views
@@ -359,7 +367,7 @@
       });
   }
 
-  function setBusy(b) { busy = b; btn.run.disabled = b; btn.generate.disabled = b; }
+  function setBusy(b) { busy = b; updateControls(); }
 
   function commit(operation, params, resp, title) {
     const s = store[current];
@@ -373,7 +381,7 @@
   }
 
   function runOperation() {
-    if (busy) return;
+    if (busy || viewingReplay()) return;
     const op = currentOp();
     const s = store[current];
     const params = readFields();
@@ -435,6 +443,7 @@
 
   // ------------------------------------------------------------------ undo / redo / clear (browser only)
   function undo() {
+    if (busy) return;
     const e = store[current].history.undo();
     if (!e) return;
     store[current].state = clone(e.before);
@@ -444,6 +453,7 @@
   }
 
   function redo() {
+    if (busy) return;
     const e = store[current].history.redo();
     if (!e) return;
     store[current].state = clone(e.after);
