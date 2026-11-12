@@ -24,7 +24,8 @@
           <select id="op-select"></select>
         </label>
         <div id="op-fields"></div>
-        <div class="row"><button id="btn-run" class="primary" type="submit">Run</button></div>
+        <div class="row"><button id="btn-run" class="primary" type="submit" aria-describedby="replay-hint">Run</button></div>
+        <p class="hint" id="replay-hint" hidden>Run is unavailable while viewing earlier animation steps. Reach the final step to run another operation, or use Undo to restore the previous structure.</p>
         <p class="hint" id="graph-hint" hidden>Tip: click a vertex on the canvas to set the source; Shift+click sets the destination.</p>
       </form>
 
